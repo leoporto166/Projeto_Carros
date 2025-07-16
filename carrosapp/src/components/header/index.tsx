@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { FiUser, FiLogIn } from "react-icons/fi"
+import logo from "../../assets/Logo2.png"
 
 export function Header() {
 
@@ -8,9 +9,9 @@ export function Header() {
 
   return (
     <div className="w-full flex flex-col items-center drop-shadow h-16 justify-center bg-white">
-      <header className="w-full flex justify-between px-4 max-w-7xl">
-          <Link to={"/"}>
-            CarrosPorto
+      <header className="w-full flex justify-between px-4 max-w-7xl items-center">
+          <Link to={"/"} className="w-[100px] p-0 m-0">
+            <img src={logo} alt="Logo" />
           </Link>
 
           {!loadingAuth && signed && (

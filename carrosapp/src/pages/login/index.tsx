@@ -3,6 +3,7 @@ import { Container } from "../../components/container";
 import {z} from "zod"
 import {useForm} from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
+import logo from "../../assets/Logo2.png"
 
 const schema  = z.object({
   email: z.string().email("Email inválido").nonempty("Preencha o campo"),
@@ -27,35 +28,34 @@ export function Login() {
     <Container>
       <div className="w-full max-w-7xl min-h-screen flex flex-col justify-center items-center">
         <Link to={"/"}
-        className="text-2xl"
+        className=""
         >
-            CarrosPorto
+            <img src={logo} alt="Logo" className="w-9/12 mb-2 mx-auto"/>
           </Link>
-        <form className="flex flex-col w-11/12 sm:w-xl items-center shadow-lg rounded"
+        <form className="flex flex-col w-11/12 sm:w-xl shadow-lg rounded items-center"
         onSubmit={handleSubmit(onSubmit)}
         >
           
           <input
-          type="email"
           placeholder="Digite seu email..."
-          className="border-1 border-gray-300 rounded px-2 h-10 w-11/12 my-5"
+          className="border-1 border-gray-300 rounded px-2 h-10 w-11/12 mt-5"
           {...register("email")}
           />
           {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email.message}</p>
+            <p className="text-red-500 text-sm w-11/12 ">{errors.email.message}</p>
           )}
 
           <input
           type="password"
           placeholder="Digite sua senha..."
-          className="border-1 border-gray-300 rounded px-2 h-10 w-11/12 mb-5"
+          className="border-1 border-gray-300 rounded px-2 h-10 w-11/12 mt-5"
           {...register("password")}
           />
            {errors.password && (
-            <p className="text-red-500 text-sm">{errors.password.message}</p>
+            <p className="text-red-500 text-sm w-11/12 ">{errors.password.message}</p>
           )}
 
-          <button className="bg-blue-950 text-white w-11/12 h-10 rounded mb-5">Acessar</button>
+          <button className="bg-blue-950 text-white w-11/12 h-10 rounded my-3">Acessar</button>
         </form>
 
         <span className="mt-2">Não tem uma conta? <Link to={"/register"}className="underline">Criar</Link></span>

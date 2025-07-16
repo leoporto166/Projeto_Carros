@@ -22,7 +22,7 @@ export function Home() {
       <main className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
 
         <section className="w-full flex flex-col bg-white p-2 shadow mr-4">
-          <img src={carro} alt="BMW" className="hover:scale-105 transition duration-1000 rounded"></img>
+          <img src={carro} alt="BMW" className="hover:scale-102 transition duration-1000 rounded"></img>
           <h1 className="py-2">ADADADAFASFWASDWASDWA</h1>
           <span className="mb-6 text-zinc-600">2008/2009 | 200.000 km</span>
 
@@ -34,7 +34,7 @@ export function Home() {
         </section>
 
         <section className="w-full flex flex-col bg-white p-2 shadow mr-4">
-          <img src={carro} alt="BMW" className="hover:scale-105 transition duration-1000 rounded"></img>
+          <img src={carro} alt="BMW" className="hover:scale-102 transition duration-1000 rounded"></img>
           <h1 className="py-2">ADADADAFASFWASDWASDWA</h1>
           <span className="mb-6 text-zinc-600">2008/2009 | 200.000 km</span>
 
@@ -46,7 +46,7 @@ export function Home() {
         </section>
 
         <section className="w-full flex flex-col bg-white p-2 shadow mr-4">
-          <img src={carro} alt="BMW" className="hover:scale-105 transition duration-1000 rounded"></img>
+          <img src={carro} alt="BMW" className="hover:scale-102 transition duration-1000 rounded"></img>
           <h1 className="py-2">ADADADAFASFWASDWASDWA</h1>
           <span className="mb-6 text-zinc-600">2008/2009 | 200.000 km</span>
 
@@ -58,7 +58,7 @@ export function Home() {
         </section>
 
         <section className="w-full flex flex-col bg-white p-2 shadow mr-4">
-          <img src={carro} alt="BMW" className="hover:scale-105 transition duration-1000 rounded"></img>
+          <img src={carro} alt="BMW" className="hover:scale-102 transition duration-1000 rounded"></img>
           <h1 className="py-2">ADADADAFASFWASDWASDWA</h1>
           <span className="mb-6 text-zinc-600">2008/2009 | 200.000 km</span>
 
@@ -70,7 +70,7 @@ export function Home() {
         </section>
 
         <section className="w-full flex flex-col bg-white p-2 shadow mr-4">
-          <img src={carro} alt="BMW" className="hover:scale-105 transition duration-1000 rounded"></img>
+          <img src={carro} alt="BMW" className="hover:scale-102 transition duration-1000 rounded"></img>
           <h1 className="py-2">ADADADAFASFWASDWASDWA</h1>
           <span className="mb-6 text-zinc-600">2008/2009 | 200.000 km</span>
 
@@ -82,7 +82,7 @@ export function Home() {
         </section>
 
         <section className="w-full flex flex-col bg-white p-2 shadow mr-4">
-          <img src={carro} alt="BMW" className="hover:scale-105 transition duration-1000 rounded"></img>
+          <img src={carro} alt="BMW" className="hover:scale-102 transition duration-1000 rounded"></img>
           <h1 className="py-2">ADADADAFASFWASDWASDWA</h1>
           <span className="mb-6 text-zinc-600">2008/2009 | 200.000 km</span>
 

@@ -1,10 +1,20 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import { Container } from "../../components/container";
+
 import logo from "../../assets/Logo2.png"
+
+import { auth } from "../../services/firebaseconnection";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { signOut } from "firebase/auth";
 
 import { useForm } from "react-hook-form";
 import {z} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
+
+
+import { useEffect } from "react";
 
 const schema = z.object({
   name: z.string().nonempty("Preencha o campo"),
@@ -14,17 +24,42 @@ const schema = z.object({
 
 type FormData  = z.infer<typeof schema>
 
-
+ 
 
 
 export function Register() {
+
+  const navigate = useNavigate()
 
   const {register, handleSubmit, formState: { errors }} = useForm<FormData>({
   resolver:zodResolver(schema),
   mode: "onChange"
   })
 
-  function onSubmit(data: FormData){
+  async function onSubmit(data: FormData){
+
+    useEffect(() => {
+          async function handleLogOut(){
+            await signOut(auth)
+          }
+    
+          handleLogOut()
+        }, [])
+
+     await createUserWithEmailAndPassword(auth, data.email, data.password)
+
+    .then(async (user) => {
+      await updateProfile(user.user, {
+        displayName: data.name
+      })
+
+      console.log("Cadastrado com Sucesso")
+      navigate("/dashboard")
+    })
+    .catch((error) => {
+      console.log(`Error: ${error}`)
+    })
+
     console.log(data)
   }
 
@@ -68,7 +103,7 @@ export function Register() {
               <p className="text-red-500 text-sm w-11/12 ml-1 ">{errors.password.message}</p>
             )}
   
-            <button className="bg-blue-950 text-white w-11/12 h-10 rounded my-3">Acessar</button>
+            <button className="bg-blue-950 text-white w-11/12 h-10 rounded my-3 cursor-pointer">Criar</button>
           </form>
   
           <span className="mt-2">Já tem uma conta? <Link to={"/login"}className="underline">Entrar</Link></span>

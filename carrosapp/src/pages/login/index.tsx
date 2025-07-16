@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
 import { Container } from "../../components/container";
+
 import {z} from "zod"
 import {useForm} from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import logo from "../../assets/Logo2.png"
+
+import { auth } from "../../services/firebaseconnection";
+import { signInWithEmailAndPassword , signOut } from "firebase/auth";
+
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const schema  = z.object({
   email: z.string().email("Email inválido").nonempty("Preencha o campo"),
@@ -15,13 +23,36 @@ type FormData = z.infer<typeof schema>
 
 export function Login() {
 
+  const navigate = useNavigate()
+
   const {register, handleSubmit, formState: { errors }} = useForm<FormData>({
     resolver: zodResolver(schema),
     mode: "onChange"
   })
 
-  function onSubmit(data: FormData){
-    console.log(data)
+  async function onSubmit(data: FormData){
+
+
+    useEffect(() => {
+      async function handleLogOut(){
+        await signOut(auth)
+      }
+
+      handleLogOut()
+    }, [])
+
+     await signInWithEmailAndPassword(auth, data.email, data.password)
+
+    .then(() => {
+      console.log("Logado com sucesso")
+      console.log(data)
+      navigate("/dashboard", {replace: true})
+    })
+    .catch((error) => {
+      console.log(`Error: ${error}`)
+    })
+
+   
   }
 
   return (
@@ -55,7 +86,7 @@ export function Login() {
             <p className="text-red-500 text-sm w-11/12 ">{errors.password.message}</p>
           )}
 
-          <button className="bg-blue-950 text-white w-11/12 h-10 rounded my-3">Acessar</button>
+          <button className="bg-blue-950 text-white w-11/12 h-10 rounded my-3 cursor-pointer">Acessar</button>
         </form>
 
         <span className="mt-2">Não tem uma conta? <Link to={"/register"}className="underline">Criar</Link></span>

@@ -36,15 +36,18 @@ export function Register() {
   mode: "onChange"
   })
 
-  async function onSubmit(data: FormData){
 
-    useEffect(() => {
-          async function handleLogOut(){
-            await signOut(auth)
-          }
-    
-          handleLogOut()
-        }, [])
+  useEffect(() => {
+      async function handleLogOut(){
+        await signOut(auth)
+        console.log("Deslogado")
+      }
+
+      handleLogOut()
+    }, [])
+
+
+  async function onSubmit(data: FormData){
 
      await createUserWithEmailAndPassword(auth, data.email, data.password)
 

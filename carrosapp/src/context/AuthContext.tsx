@@ -37,7 +37,7 @@ function AuthProvider({children}: ProviderProps){
 
         return () => {
             unsub
-        }
+        } 
         
     }, [])
 
@@ -46,7 +46,7 @@ function AuthProvider({children}: ProviderProps){
     return(
         <AuthContext.Provider 
         value={{
-            signed: !user
+            signed: !!user
         }}>
             {children}
         </AuthContext.Provider>

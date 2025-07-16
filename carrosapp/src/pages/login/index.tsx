@@ -30,8 +30,6 @@ export function Login() {
     mode: "onChange"
   })
 
-  async function onSubmit(data: FormData){
-
 
     useEffect(() => {
       async function handleLogOut(){
@@ -40,6 +38,12 @@ export function Login() {
 
       handleLogOut()
     }, [])
+
+    
+  async function onSubmit(data: FormData){
+
+
+    
 
      await signInWithEmailAndPassword(auth, data.email, data.password)
 

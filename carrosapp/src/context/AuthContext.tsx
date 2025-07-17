@@ -1,10 +1,12 @@
 
-import { ReactNode, createContext, useState, useEffect } from "react";
+import { type ReactNode, createContext, useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../services/firebaseconnection";
 
 type AuthContextData = {
     signed: boolean;
+    handleInfoUser: ({email, name, uid}: UserProps) => void;
+    user: UserProps | null
 }
 
 interface ProviderProps{
@@ -41,12 +43,22 @@ function AuthProvider({children}: ProviderProps){
         
     }, [])
 
+    function handleInfoUser({email, name, uid}: UserProps){
+        setUser({
+            email,
+            name,
+            uid
+        })
+    }
+
     const [user, setUser] = useState<UserProps | null>(null)
 
     return(
         <AuthContext.Provider 
         value={{
-            signed: !!user
+            signed: !!user,
+            handleInfoUser,
+            user,
         }}>
             {children}
         </AuthContext.Provider>

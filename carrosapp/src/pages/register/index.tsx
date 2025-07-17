@@ -12,9 +12,13 @@ import { signOut } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import {z} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 
 import { useEffect } from "react";
+
+
 
 const schema = z.object({
   name: z.string().nonempty("Preencha o campo"),
@@ -28,6 +32,10 @@ type FormData  = z.infer<typeof schema>
 
 
 export function Register() {
+
+
+  const {user, handleInfoUser } = useContext(AuthContext) 
+
 
   const navigate = useNavigate()
 
@@ -54,6 +62,12 @@ export function Register() {
     .then(async (user) => {
       await updateProfile(user.user, {
         displayName: data.name
+      })
+
+      handleInfoUser({
+        name: data.name,
+        email: data.email,
+        uid: user.user.uid
       })
 
       console.log("Cadastrado com Sucesso")

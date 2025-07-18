@@ -2,7 +2,7 @@ import { Container } from "../../components/container";
 import carro from "../../assets/bmw.jpg"
 import { useEffect, useState } from "react";
 
-import { query, orderBy, collection, getDoc, getDocs } from "firebase/firestore";
+import { query, orderBy, collection, getDocs, where, snapshotEqual } from "firebase/firestore";
 import { db } from "../../services/firebaseconnection";
 import { Link } from "react-router-dom";
 
@@ -22,11 +22,15 @@ interface CarsProps{
 
 export function Home() {
   const [cars, setCars] = useState<CarsProps[]>([])
+  const [input, setInput] = useState("")
 
   useEffect(() => {
 
-    
+  loadCars()
 
+  }, [])
+
+   function loadCars(){
     const carsRef = collection(db, "Posts")
     const queryRef = query(carsRef, orderBy("created", "desc"))
 
@@ -53,8 +57,43 @@ export function Home() {
     })
 
     console.log(setCars)
+  }
 
-  }, [])
+  async function handleSearchCar(){
+    if(input === ""){
+      loadCars()
+      return
+    }
+
+    setCars([])
+
+    const q = query(collection(db, "Posts"),
+    where("name", ">=", input.toUpperCase()),
+    where("name", "<=", input.toUpperCase() + "\uf8ff")
+    )
+
+    const querySnapshot = await getDocs(q)
+    let listSearchCars: CarsProps[] = []
+
+    querySnapshot.forEach((doc) => {
+      listSearchCars.push({
+            id: doc.id,
+            name: doc.data().name,
+            modelo: doc.data().modelo,
+            ano: doc.data().ano,
+            km: doc.data().km,
+            preco: doc.data().preco,
+            cidade: doc.data().cidade,
+            wpp: doc.data().wpp,
+            description: doc.data().description,
+            uid: doc.data().uid,
+      })
+    })
+
+    setCars(listSearchCars)
+
+  
+  }
 
 
   return (
@@ -63,8 +102,12 @@ export function Home() {
         <div className="bg-white shadow h-20 flex items-center p-5 rounded mt-6">
               <input className="border-1 border-gray-200 rounded h-10 p-1 w-full"
               placeholder="Procure..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              
               />
-              <button className="h-10 ml-2 cursor-pointer bg-blue-400 p-2 text-white rounded">Procurar</button>    
+              <button className="h-10 ml-2 cursor-pointer bg-blue-400 p-2 text-white rounded"
+              onClick={handleSearchCar}>Procurar</button>    
         </div>
       </div>
 

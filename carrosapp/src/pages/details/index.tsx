@@ -1,10 +1,11 @@
 
-import { doc, getDoc, snapshotEqual } from "firebase/firestore"
+import { doc, getDoc } from "firebase/firestore"
 import { db } from "../../services/firebaseconnection"
-import { Link, useParams } from "react-router-dom"
+import {  useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { Container } from "../../components/container";
-import carroimg from "../../assets/bmw.jpg";
+import { FaWhatsapp } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom";
 
 interface CarsProps{
   id: string;
@@ -22,6 +23,7 @@ interface CarsProps{
 
 
 export function Datails() {
+  const navigate = useNavigate()
 
   const [carro, setCarro] = useState<CarsProps>()
 
@@ -37,6 +39,11 @@ export function Datails() {
       getDoc(docRef)
 
       .then((snapshot) => {
+
+        if(!snapshot.data()){
+          navigate("/")
+        }
+
         setCarro({
           id: snapshot.id,
           name: snapshot.data()?.name,
@@ -58,29 +65,57 @@ export function Datails() {
 
   return (
     <Container>
-      <main className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <main className="flex w-full  max-w-7xl">  
 
-        
-        <Link to={""}>
-
-          <section className="w-full flex flex-col bg-white p-2 shadow mr-4 relative " >
+        {carro && (
+          <section className="w-full flex flex-col bg-white p-2 shadow mr-4 relative mt-5 rounded py-3" >
             
-            <img src={carroimg} alt={carro?.name} className=" rounded"></img>
+            <div className="flex">
+              <h1 className="font-bold text-2xl sm:text-4xl">{carro?.name}</h1>
+              <strong className="font-bold text-2xl  sm:text-4xl ml-auto">R$ {carro?.preco}</strong>
+            </div>
 
-            <h1 className="py-2">{carro?.name}</h1>
+            <h2 className="py-2 text-zinc-600">{carro?.modelo}</h2>
 
-            <span className="mb-6 text-zinc-600">{carro?.ano} | {carro?.km} km</span>
+            <div className="flex">
+              <h3 className="text-zinc-600">Cidade</h3>
+              <h3 className="ml-15 text-zinc-600">Km</h3>
+              
+            </div>
+            <div className="flex">
+              <p className="mb-2 font-semibold">{carro?.cidade}</p>
+              <p className="ml-4 font-semibold">{carro?.km}</p>
+            </div>
+            
+            <h3 className=" text-zinc-600">Ano</h3>
+            <p className="font-semibold">{carro?.ano}</p>
 
-            <strong className="py-2">R$ {carro?.preco}</strong>
+            <h3 className="text-zinc-600 mt-2">Descrição</h3>
+            <p className="font-semibold">{carro?.description}</p>
+            
+
+            <h3 className="text-zinc-600 mt-2">Telefone/WhatsApp</h3>
+            <p className="font-semibold">{carro?.wpp}</p>
+
+            <h3 className="text-zinc-600 mt-2">Vendedor</h3>
+            <p className="font-semibold">{carro?.criador}</p>
           
-            <div className="w-full h-[1px] bg-gray-200"></div>
+            <div className="w-full h-[1px] bg-gray-200 my-1"></div>
 
-            <h2 className="py-2">{carro?.cidade}</h2>
+            <a href={`https://wa.me/55${carro?.wpp}?text=Vi o seu ${carro.name} no site CarrosPorto e fiquei interessado`}
+            target="_blank" 
+            className="w-full bg-green-500 flex items-center justify-center py-1 rounded my-4 cursor-pointer">
+              <FaWhatsapp size={28} className="text-white mr-2"></FaWhatsapp>
+              <p className="text-white sm:text-lg font-semibold">Conversar com vendedor</p>
+            </a>
+
+            
 
           </section>
+        )}
 
-        </Link>
-        
+          
+       
       </main>
 
 

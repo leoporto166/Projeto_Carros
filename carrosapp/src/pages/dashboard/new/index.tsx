@@ -42,7 +42,7 @@ export function New(){
       async function onSubmit(data: FormData){
 
         await addDoc(collection(db, "Posts"), {
-            name: data.name,
+            name: data.name.toUpperCase(),
             modelo: data.modelo,
             km: data.km,
             preco: data.preco,

@@ -1,7 +1,60 @@
 import { Container } from "../../components/container";
 import carro from "../../assets/bmw.jpg"
+import { useEffect, useState } from "react";
+
+import { query, orderBy, collection, getDoc, getDocs } from "firebase/firestore";
+import { db } from "../../services/firebaseconnection";
+import { Link } from "react-router-dom";
+
+interface CarsProps{
+  id: string;
+  uid: string;
+  name: string;
+  modelo: string; 
+  ano: string; 
+  km: string;
+  preco: string | number;
+  cidade: string;
+  wpp: string;
+  description: string;
+}
+
 
 export function Home() {
+  const [cars, setCars] = useState<CarsProps[]>([])
+
+  useEffect(() => {
+
+    
+
+    const carsRef = collection(db, "Posts")
+    const queryRef = query(carsRef, orderBy("created", "desc"))
+
+    getDocs(queryRef)
+    .then((snapshot) => {
+      let listcars = [] as CarsProps[]
+
+      snapshot.forEach((doc) => {
+        listcars.push({
+          id: doc.id,
+          name: doc.data().name,
+          modelo: doc.data().modelo,
+          ano: doc.data().ano,
+          km: doc.data().km,
+          preco: doc.data().preco,
+          cidade: doc.data().cidade,
+          wpp: doc.data().wpp,
+          description: doc.data().description,
+          uid: doc.data().uid,
+        })
+      })
+
+      setCars(listcars)
+    })
+
+    console.log(setCars)
+
+  }, [])
 
 
   return (
@@ -21,79 +74,19 @@ export function Home() {
 
       <main className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-        <section className="w-full flex flex-col bg-white p-2 shadow mr-4">
-          <img src={carro} alt="BMW" className="hover:scale-102 transition duration-1000 rounded"></img>
-          <h1 className="py-2">ADADADAFASFWASDWASDWA</h1>
-          <span className="mb-6 text-zinc-600">2008/2009 | 200.000 km</span>
-
-          <strong className="py-2">R$ 2.000.000</strong>
+        {cars.map((car) => (
+        <Link to={`/details/${car.id}`} key={car.id}>
+          <section className="w-full flex flex-col bg-white p-2 shadow mr-4" >
+            <img src={carro} alt="BMW" className="hover:scale-102 transition duration-1000 rounded"></img>
+            <h1 className="py-2">{car.name}</h1>
+            <span className="mb-6 text-zinc-600">{car.ano} | {car.km} km</span>
+            <strong className="py-2">R$ {car.preco}</strong>
           
-          <div className="w-full h-[1px] bg-gray-200"></div>
-
-          <h2 className="py-2">Goiânia - GO</h2>
-        </section>
-
-        <section className="w-full flex flex-col bg-white p-2 shadow mr-4">
-          <img src={carro} alt="BMW" className="hover:scale-102 transition duration-1000 rounded"></img>
-          <h1 className="py-2">ADADADAFASFWASDWASDWA</h1>
-          <span className="mb-6 text-zinc-600">2008/2009 | 200.000 km</span>
-
-          <strong className="py-2">R$ 2.000.000</strong>
-          
-          <div className="w-full h-[1px] bg-gray-200"></div>
-
-          <h2 className="py-2">Goiânia - GO</h2>
-        </section>
-
-        <section className="w-full flex flex-col bg-white p-2 shadow mr-4">
-          <img src={carro} alt="BMW" className="hover:scale-102 transition duration-1000 rounded"></img>
-          <h1 className="py-2">ADADADAFASFWASDWASDWA</h1>
-          <span className="mb-6 text-zinc-600">2008/2009 | 200.000 km</span>
-
-          <strong className="py-2">R$ 2.000.000</strong>
-          
-          <div className="w-full h-[1px] bg-gray-200"></div>
-
-          <h2 className="py-2">Goiânia - GO</h2>
-        </section>
-
-        <section className="w-full flex flex-col bg-white p-2 shadow mr-4">
-          <img src={carro} alt="BMW" className="hover:scale-102 transition duration-1000 rounded"></img>
-          <h1 className="py-2">ADADADAFASFWASDWASDWA</h1>
-          <span className="mb-6 text-zinc-600">2008/2009 | 200.000 km</span>
-
-          <strong className="py-2">R$ 2.000.000</strong>
-          
-          <div className="w-full h-[1px] bg-gray-200"></div>
-
-          <h2 className="py-2">Goiânia - GO</h2>
-        </section>
-
-        <section className="w-full flex flex-col bg-white p-2 shadow mr-4">
-          <img src={carro} alt="BMW" className="hover:scale-102 transition duration-1000 rounded"></img>
-          <h1 className="py-2">ADADADAFASFWASDWASDWA</h1>
-          <span className="mb-6 text-zinc-600">2008/2009 | 200.000 km</span>
-
-          <strong className="py-2">R$ 2.000.000</strong>
-          
-          <div className="w-full h-[1px] bg-gray-200"></div>
-
-          <h2 className="py-2">Goiânia - GO</h2>
-        </section>
-
-        <section className="w-full flex flex-col bg-white p-2 shadow mr-4">
-          <img src={carro} alt="BMW" className="hover:scale-102 transition duration-1000 rounded"></img>
-          <h1 className="py-2">ADADADAFASFWASDWASDWA</h1>
-          <span className="mb-6 text-zinc-600">2008/2009 | 200.000 km</span>
-
-          <strong className="py-2">R$ 2.000.000</strong>
-          
-          <div className="w-full h-[1px] bg-gray-200"></div>
-
-          <h2 className="py-2">Goiânia - GO</h2>
-        </section>
-
-        
+            <div className="w-full h-[1px] bg-gray-200"></div>
+            <h2 className="py-2">{car.cidade}</h2>
+          </section>
+        </Link>
+      ))}  
       </main>
         
     </Container>

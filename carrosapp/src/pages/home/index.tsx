@@ -77,7 +77,7 @@ export function Home() {
         {cars.map((car) => (
         <Link to={`/details/${car.id}`} key={car.id}>
           <section className="w-full flex flex-col bg-white p-2 shadow mr-4" >
-            <img src={carro} alt="BMW" className="hover:scale-102 transition duration-1000 rounded"></img>
+            <img src={carro} alt={car.name} className="hover:scale-102 transition duration-1000 rounded"></img>
             <h1 className="py-2">{car.name}</h1>
             <span className="mb-6 text-zinc-600">{car.ano} | {car.km} km</span>
             <strong className="py-2">R$ {car.preco}</strong>

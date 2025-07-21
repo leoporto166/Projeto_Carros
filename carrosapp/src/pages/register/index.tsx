@@ -14,6 +14,7 @@ import {z} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import toast from "react-hot-toast"
 
 
 import { useEffect } from "react";
@@ -69,11 +70,12 @@ export function Register() {
         email: data.email,
         uid: user.user.uid
       })
-
+      toast.success("Cadastrado com Sucesso")
       console.log("Cadastrado com Sucesso")
       navigate("/dashboard")
     })
     .catch((error) => {
+      toast.error("Não foi possivel Cadastrar. Tente novamente")
       console.log(`Error: ${error}`)
     })
 

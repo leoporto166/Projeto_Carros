@@ -11,6 +11,7 @@ import { collection } from "firebase/firestore";
 
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
+import toast from "react-hot-toast";
 
 const schema = z.object({
   name: z.string().nonempty("Preencha o campo"),
@@ -57,9 +58,11 @@ export function New(){
 
         .then(() => {
             reset();
+            toast.success("Cadatrado com Sucesso")
             console.log("Cadastrado com SUCESSO")
         })
         .catch((error) => {
+            toast.error("Não foi possivel Cadatrar. Tente novamente")
             console.log(`ERRO: ${error}`)
         })
         

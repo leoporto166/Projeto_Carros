@@ -12,6 +12,7 @@ import { signInWithEmailAndPassword , signOut } from "firebase/auth";
 
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import toast from "react-hot-toast"
 
 const schema  = z.object({
   email: z.string().email("Email inválido").nonempty("Preencha o campo"),
@@ -48,11 +49,13 @@ export function Login() {
      await signInWithEmailAndPassword(auth, data.email, data.password)
 
     .then(() => {
+      toast.success("Logado com sucesso")
       console.log("Logado com sucesso")
       console.log(data)
       navigate("/dashboard", {replace: true})
     })
     .catch((error) => {
+      toast.error("Não foi possivel Logar. Tente novamente")
       console.log(`Error: ${error}`)
     })
 
